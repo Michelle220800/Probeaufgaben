@@ -24,6 +24,8 @@ while (($line = fgets($file)) !== false) {
     if (preg_match("/serial=([A-Z0-9]+)/", $line, $matches)) {
 
         $serial = $matches[1];
+        echo "Seriennummer gefunden: $serial\n";
+        break;
     }
 
 //Die Specs müssen extrahiert werden und dekodiert werden. Hier habe ich gegoogelt wie man json dekodieren kann.
