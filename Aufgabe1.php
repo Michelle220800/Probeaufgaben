@@ -29,3 +29,18 @@ preg_match sucht mit einem Muster nach der Seriennummer*/
 }
 
 //Sortiert das Array absteigend
+arsort($counter);
+
+//Definiere das er nur die ersten 10 Elemente nimmt.
+$top10 = array_slice($counter,0,10, true);
+
+echo "Top 10 Lizenz-Seriennummern\n";
+echo "---------------------------\n";
+
+//Schleife über die Top 10, um die Zugriffe auszulesen
+foreach ($top10 as $serial => $count) {
+    
+    //Ausgabe pro Eintrag
+    echo $serial . " : Zugriff auf den Server" . $count . " Mal." . "\n";
+}
+
