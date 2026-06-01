@@ -10,10 +10,13 @@
 //Leeres Array erstellen. Für die Speicherung von Seriennummern und Anzahl der Zugriffe
 $counter = [];
 
-$lines = file("access.log");
+/*Mit $lines = file wurde die gesamte Datei auf einmal geladen.
+Da die Datei zu groß ist verwende ich fopen wodurch die Datei nur geöffnet wird.*/
+$file = fopen("access.log", "r");
 
-//Schleife erstellen, um jede Zeile in der Datei auszulesen
-foreach ($lines as $line) {
+/*foreach ersetzt durch eine while Schleife, um die Zeilen solange auszulesen, bis die Datei das Ende erreicht.
+fgets wird hier nun genutzt um die Zeile auszulesen.*/
+while (($line = fgets($file)) !== false) {
         
 /*Format festlegen, welches die Seriennummer hat.
 preg_match sucht mit einem Muster nach der Seriennummer*/ 
@@ -28,19 +31,21 @@ preg_match sucht mit einem Muster nach der Seriennummer*/
     }
 }
 
+fclose($file);
+
 //Sortiert das Array absteigend
 arsort($counter);
 
 //Definiere das er nur die ersten 10 Elemente nimmt.
 $top10 = array_slice($counter,0,10, true);
 
-echo "Top 10 Lizenz-Seriennummern\n";
+echo "Top 10 Lizenzen-Seriennummern\n";
 echo "---------------------------\n";
 
 //Schleife über die Top 10, um die Zugriffe auszulesen
 foreach ($top10 as $serial => $count) {
     
     //Ausgabe pro Eintrag
-    echo $serial . " : Zugriff auf den Server" . $count . " Mal." . "\n";
+    echo $serial . " : Zugriff auf den Server " . $count . " Mal." . "\n";
 }
 
