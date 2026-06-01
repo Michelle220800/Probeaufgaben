@@ -12,4 +12,20 @@ $counter = [];
 
 $lines = file("access.log");
 
-//Schleife um jede Zeile in der Datei auszulesen
+//Schleife erstellen, um jede Zeile in der Datei auszulesen
+foreach ($lines as $line) {
+        
+/*Format festlegen, welches die Seriennummer hat.
+preg_match sucht mit einem Muster nach der Seriennummer*/ 
+    if (preg_match("/serial=([A-Z0-9]+)/", $line, $matches)) {
+
+//gefundene Seriennummer wird in einer Variablen gespeichert
+        $serial = $matches[1];
+
+//Wenn der Werrt für Seriennummer existiert, nimm ihn, wenn nicht setze 0. Zähler erhöht sich um 1
+        $counter[$serial] = 
+            ($counter[$serial] ?? 0) + 1;
+    }
+}
+
+//Sortiert das Array absteigend
