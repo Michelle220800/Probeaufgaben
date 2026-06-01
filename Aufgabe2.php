@@ -17,19 +17,23 @@ $devices = [];
 $file = fopen("access.log", "r");
 
 while (($line = fgets($file)) !== false) {
-//Aus den gegebenen Infos weiß ich, dass es eine Mac-Adresse sein muss, die in den specs ist.
+/*Aus den gegebenen Infos weiß ich, dass es eine Mac-Adresse sein muss, die in den specs ist.
+Falls in einer Zeile Daten fehlhaft sind, setze ich beide Werte auf null. Andererseits könnte eine Mac-Adresse aus der neuen Zeile mit der
+Seriennummer der Zeile davor verknüpft werden.*/
     $serial = null;
     $mac = null;
 //Seriennummern werden extrahiert
     if (preg_match("/serial=([A-Z0-9]+)/", $line, $matches)) {
 
         $serial = $matches[1];
-        echo "Seriennummer gefunden: $serial\n";
-        break;
+/* echo "Seriennummer gefunden: $serial\n";
+        break; */
     }
 
 //Die Specs müssen extrahiert werden und dekodiert werden. Hier habe ich gegoogelt wie man json dekodieren kann.
     if (preg_match("/specs=([A-Za-z0-9+\/=]+)/", $line, $matches)){
-
+        
+        $json = json_decode($matches[1], true);
+        echo $json;
     }
 }
