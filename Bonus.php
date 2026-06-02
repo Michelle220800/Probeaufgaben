@@ -25,7 +25,7 @@ while (($line = fgets($file)) !== false) {
         $compressedData = base64_decode($encodedSpecs);
         $jsonString = gzdecode($compressedData);
         $parsedjson = json_decode($jsonString, true);
-        echo $parsedjson["cpu"] . "\n";
+        //echo $parsedjson["cpu"] . "\n";
         /*Regeln für Cpu festlegen. Dafür Log auslesen und durchschauen was für Typen vorkommen.
         Intel(R) Atom(TM) ,  via?
         Intel(R) Celeron(R)
@@ -33,8 +33,17 @@ while (($line = fgets($file)) !== false) {
         Intel(R) Xeon(R)
         Intel(R) Pentium(R)
         Amd
-        Daraus entwickel ich eine Regel nach der gefiltert werden soll
-        */
+        Daraus entwickel ich eine Regel nach der gefiltert werden soll. Diese Regeln versuche ich mithilfe von
+        If-Anweisungen dann zu definieren. Davor muss aber das json geprüft werden, ob es gültig ist (also cpu Werte besitzt) oder nicht*/
+        //Prüfung dass das json gültig sein muss, bevor das Programm weiter läuft
+        if ($parsedjson !== null) {
+        /*Ich hole den Wert von den Cpus aus dem Array und falls er fehlt nutze ich einen leeren String
+        Mit ?? "" möchte ich den Fall verhindern, dass das Programm crashen könnte oder Warnings gibt, falls cpu nicht existiert in einer Zeile*/
+        $cpuData = $parsedjson["cpu"] ?? "";
+        $cpu = strtolower($cpuData);
+        //Test erfolgreich, Syntax wird nun komplett klein geschrieben
+        echo $cpu . "\n";
+        }
     }
 }
 
