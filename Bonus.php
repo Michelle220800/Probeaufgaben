@@ -72,9 +72,23 @@ while (($line = fgets($file)) !== false) {
             um die Hardwaretypen zu zählen.*/
             $hardwareTyp[$type] = ($hardwareTyp[$type] ?? 0) + 1;
             //Test erfolgreich, die Systeme werden ausgezählt
-            echo $type . " = " . $hardwareTyp[$type] . "\n";
+            //echo $type . " = " . $hardwareTyp[$type] . "\n";
         }
     }
 }    
 
 fclose($file);
+
+//Ausgabe Codeschnipsel von Aufgabe 2 einfügen und umändern der Variablen
+arsort($hardwareTyp);
+
+//Ausgabe erstellen
+echo "Hardwareklassen\n";
+echo "---------------------------\n";
+
+//Schleife über die Hardwaretypen, um zu zählen wie viele Lizenzen aktiv sind
+foreach ($hardwareTyp as $type => $count) {
+    
+    //Ausgabe pro Eintrag
+    echo $type . " : " . $count . " Lizenzen." . "\n";
+}
