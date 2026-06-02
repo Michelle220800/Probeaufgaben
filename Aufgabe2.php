@@ -74,6 +74,22 @@ foreach ($devices as $serial => $macData) {
     Wenn diese auf mehreren Geräten aktiv ist, soll der Vertoß gezählt werden.*/
     if ($count > 1) {
         $violations[$serial] = $count;
-        echo $serial . " verstößt die Regel mit " . $count . " Geräten.\n";
+        //echo $serial . " verstößt die Regel mit " . $count . " Geräten.\n";
     }
+}
+
+//Top 10 Violations sortieren. Codeschnipsel aus der ersten Aufgabe nutzen
+arsort($violations);
+
+$top10 = array_slice($violations,0,10, true);
+
+//Ausgabe erstellen
+echo "Top 10 Regelverstöße\n";
+echo "---------------------------\n";
+
+//Schleife über die Top 10, um die Zugriffe auszulesen
+foreach ($top10 as $serial => $count) {
+    
+    //Ausgabe pro Eintrag
+    echo $serial . " wird auf " . $count . " verschiedenen Geräten genutzt." . "\n";
 }
