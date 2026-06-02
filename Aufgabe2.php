@@ -40,6 +40,15 @@ als Base64 kodiert wurde. Heißt ich muss erst Base64 decoden und dann gzip deco
         //Base64 decoden
         $compressedData = base64_decode($encodedSpecs);
         //Testen ob das Decoding von base64 funktioniert -> Funktioniert, also als nächstes Gzip decoden
-        echo $compressedData;
+        //echo $compressedData;
+        //Nach dem decodieren von gzip, sollte ein jsonstring gegeben sein
+        $jsonString = gzdecode($compressedData);
+        //Json wird decodiert und getestet ob das decoden funktioniert hat
+        $parsedjson = json_decode($jsonString, true);
+        //echo $parsedjson;
+        //In $mac soll die Adresse von mac gespeichert werden aus den specs. Wenn der Wert nicht existiert soll null zurückgegeben werden
+        $mac = $parsedjson["mac"] ?? null;
+        //Testen ob Mac Adresse zurückgegeben wird.
+        echo  "Mac Adresse gefunden: " . $mac . "\n";
     }
 }
