@@ -32,8 +32,14 @@ Seriennummer der Zeile davor verknüpft werden.*/
 
 //Die Specs müssen extrahiert werden und dekodiert werden. Hier habe ich gegoogelt wie man json dekodieren kann.
     if (preg_match("/specs=([A-Za-z0-9+\/=]+)/", $line, $matches)){
-        
-        $json = json_decode($matches[1], true);
-        echo $json;
+/*Nach einigen Versuchen json zu decoden, hab ich mir in der Aufgabenstellung die specs nochmal angeschaut
+und festgestellt das bei den specs in der letzten Reihe steht, dass es als gzip komprimiert wurde und anschließend
+als Base64 kodiert wurde. Heißt ich muss erst Base64 decoden und dann gzip decoden, um die JSON zu decoden. */
+        //Encodierte Daten aus dem Log holen
+        $encodedSpecs = $matches[1];
+        //Base64 decoden
+        $compressedData = base64_decode($encodedSpecs);
+        //Testen ob das Decoding von base64 funktioniert -> Funktioniert, also als nächstes Gzip decoden
+        echo $compressedData;
     }
 }
