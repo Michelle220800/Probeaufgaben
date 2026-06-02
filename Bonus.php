@@ -17,6 +17,12 @@ $hardwareTyp = [];
 $file = fopen("access.log", "r");
 //Codeschnipsel aus Aufgabe 2 nutzen, um specs zu decodieren
 while (($line = fgets($file)) !== false) {
+    
+    //Seriennummern müssen ausgelesen werden, was ich am Anfang vergessen habe
+    if (preg_match("/serial=([A-Z0-9]+)/", $line, $matches)) {
+
+        $serial = $matches[1];
+    }
 
     if (preg_match("/specs=([A-Za-z0-9+\/=]+)/", $line, $matches)){
 
@@ -69,8 +75,9 @@ while (($line = fgets($file)) !== false) {
             }
 
             /*Nun baue ich noch einen Counter ein für den hardwareTyp den ich am Anfang mit einem Array erstellt habe,
-            um die Hardwaretypen zu zählen.*/
-            $hardwareTyp[$type] = ($hardwareTyp[$type] ?? 0) + 1;
+            um die Hardwaretypen zu zählen.
+            Ich habe die serials nicht mehr ausgelesen, weswegen ich die Logeinträge zähle und nicht die Lizenzen. Serial muss ergänzt werden*/
+            $hardwareTyp[$type][$serial] = true;
             //Test erfolgreich, die Systeme werden ausgezählt
             //echo $type . " = " . $hardwareTyp[$type] . "\n";
         }
@@ -87,8 +94,9 @@ echo "Hardwareklassen\n";
 echo "---------------------------\n";
 
 //Schleife über die Hardwaretypen, um zu zählen wie viele Lizenzen aktiv sind
-foreach ($hardwareTyp as $type => $count) {
-    
+foreach ($hardwareTyp as $type => $licenses) {
+    //LizenzenCounter der die aktiven Lizenzen nun zählt.
+    $licenseCount = count($licenses);
     //Ausgabe pro Eintrag
-    echo $type . " : " . $count . " Lizenzen." . "\n";
+    echo $type . " : " . $licenseCount . " aktive Lizenzen." . "\n";
 }
