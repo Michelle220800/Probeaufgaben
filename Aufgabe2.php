@@ -51,4 +51,12 @@ als Base64 kodiert wurde. Heißt ich muss erst Base64 decoden und dann gzip deco
         //Testen ob Mac Adresse zurückgegeben wird.
         echo  "Mac Adresse gefunden: " . $mac . "\n";
     }
+    
+    /*Als nächstes überprüfen ob Seriennummer und Mac-Adresse existiert und diese zusammen abspeichern für eine Gerätezuordnung.
+    Nur Paare bei denen beides vorhanden ist, sollen gespeichert werden, da eine Logzeile auch fehlerhaft sein <kann></kann>*/ 
+    if ($serial && $mac) {
+        $devices[$serial][$mac] = true;
+        //Test ob die Seriennummer + Geräte ausgegeben werden + Zähler
+        echo "Serial: $serial | Mac: $mac | Count: " . count($devices[$serial]) . "\n";
+    }
 }
