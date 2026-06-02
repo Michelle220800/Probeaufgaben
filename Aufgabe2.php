@@ -49,7 +49,7 @@ als Base64 kodiert wurde. Heißt ich muss erst Base64 decoden und dann gzip deco
         //In $mac soll die Adresse von mac gespeichert werden aus den specs. Wenn der Wert nicht existiert soll null zurückgegeben werden
         $mac = $parsedjson["mac"] ?? null;
         //Testen ob Mac Adresse zurückgegeben wird.
-        echo  "Mac Adresse gefunden: " . $mac . "\n";
+        //echo  "Mac Adresse gefunden: " . $mac . "\n";
     }
     
     /*Als nächstes überprüfen ob Seriennummer und Mac-Adresse existiert und diese zusammen abspeichern für eine Gerätezuordnung.
@@ -57,6 +57,23 @@ als Base64 kodiert wurde. Heißt ich muss erst Base64 decoden und dann gzip deco
     if ($serial && $mac) {
         $devices[$serial][$mac] = true;
         //Test ob die Seriennummer + Geräte ausgegeben werden + Zähler
-        echo "Serial: $serial | Mac: $mac | Count: " . count($devices[$serial]) . "\n";
+        //echo "Serial: $serial | Mac: $mac | Count: " . count($devices[$serial]) . "\n";
+    }
+}
+
+fclose($file);
+
+//Als nächstes müssen die Vertöße berechnet werden (Mehr als 1 Gerät = Regelbruch)(foreach?)
+//Array für die Verstöße anlegen
+$violations = [];
+//Counter mit einer foreach erstellen, um die Verstöße zu zählen. MacData beinhaltet die Liste der Geräte
+foreach ($devices as $serial => $macData) {
+    //Soll zählen wie viele Geräte diese Lizenz hat
+    $count = count($macData);
+    /*Prüfung der Regel, dass eine Lizenz nur auf einem Gerät aktiv sein darf.
+    Wenn diese auf mehreren Geräten aktiv ist, soll der Vertoß gezählt werden.*/
+    if ($count > 1) {
+        $violations[$serial] = $count;
+        echo $serial . " verstößt die Regel mit " . $count . " Geräten.\n";
     }
 }
